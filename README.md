@@ -48,6 +48,8 @@ Com o **SGC Velare**, essas operações passam a ser realizadas de forma digital
 ### 📊 Relatórios
 
 * Vendas por período
+* Vendas por cliente
+* Gráfico de vendas anuais
 * Produtos mais vendidos
 * Controle de estoque
 
