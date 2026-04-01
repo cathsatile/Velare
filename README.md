@@ -327,6 +327,8 @@ docs/documentacao/
 docs/diagramas/
 database/
 
+---
+
 ## 👩‍💻 Autoria
 
 Projeto desenvolvido por:
