@@ -1,4 +1,4 @@
-#💎 SGC Velare — Sistema de Gestão Comercial para Joalheria
+# 💎 SGC Velare — Sistema de Gestão Comercial para Joalheria
 
 ---
 
