@@ -1,12 +1,16 @@
-# 💎 SGC Velare — Sistema de Gestão Comercial para Joalheria
+💎 SGC Velare — Sistema de Gestão Comercial para Joalheria
+
+---
 
 ## 📌 Sobre o Projeto
 
-O **SGC Velare** é um sistema de gestão comercial desenvolvido para auxiliar na administração de uma loja de joias. O sistema tem como objetivo organizar e automatizar processos essenciais do negócio, como controle de estoque, cadastro de clientes e registro de vendas.
+O **SGC Velare** é um sistema de gestão comercial desenvolvido para auxiliar na administração de uma joalheria, permitindo o controle eficiente de clientes, produtos e vendas.
 
-A aplicação foi desenvolvida como um sistema desktop com interface gráfica utilizando Java Swing, permitindo que funcionários utilizem o sistema de forma local e intuitiva.
+O sistema tem como objetivo automatizar processos essenciais do negócio, reduzir erros operacionais e fornecer informações estratégicas para tomada de decisão.
 
-Este projeto foi desenvolvido como parte da disciplina de Desenvolvimento de Sistemas, aplicando conceitos de engenharia de software, arquitetura em camadas e padrões de projeto.
+A aplicação segue uma arquitetura em camadas, sendo composta por um backend em API REST e uma interface desktop desenvolvida em Java Swing.
+
+Este projeto foi desenvolvido como parte da disciplina de Desenvolvimento de Sistemas, aplicando conceitos de engenharia de software, boas práticas arquiteturais e padrões de projeto.
 
 ---
 
@@ -16,10 +20,10 @@ O sistema busca resolver problemas comuns enfrentados por pequenos comércios, c
 
 * dificuldade no controle de estoque
 * registro manual de vendas
-* falta de organização no cadastro de clientes
-* ausência de relatórios de desempenho do negócio
+* desorganização no cadastro de clientes
+* ausência de relatórios gerenciais
 
-Com o **SGC Velare**, essas operações passam a ser realizadas de forma digital e organizada.
+Com o SGC Velare, essas operações passam a ser realizadas de forma digital, segura e organizada.
 
 ---
 
@@ -27,21 +31,23 @@ Com o **SGC Velare**, essas operações passam a ser realizadas de forma digital
 
 ### 📦 Gestão de Produtos
 
-* Cadastro de joias
-* Atualização de produtos
+* Cadastro de produtos
+* Atualização de dados
 * Controle de estoque
-* Consulta de produtos disponíveis
+* Consulta de produtos
 
 ### 👤 Gestão de Clientes
 
 * Cadastro de clientes
-* Consulta de clientes cadastrados
+* Consulta e listagem
 * Atualização de dados
+* Visualização de histórico de compras (para clientes autenticados)
 
 ### 💰 Registro de Vendas
 
 * Registro de vendas
-* Adição de múltiplos produtos em uma venda
+* Associação de múltiplos itens
+* Cálculo automático do valor total
 * Atualização automática do estoque
 * Histórico de vendas
 
@@ -49,67 +55,83 @@ Com o **SGC Velare**, essas operações passam a ser realizadas de forma digital
 
 * Vendas por período
 * Vendas por cliente
-* Gráfico de vendas anuais
 * Produtos mais vendidos
 * Controle de estoque
 
+---
+
 ## 🔐 Autenticação e Autorização
 
-O sistema possui um mecanismo de autenticação baseado em **JWT (JSON Web Token)**, conforme os requisitos do projeto. O processo de autenticação funciona da seguinte forma:
+O sistema utiliza autenticação baseada em **JWT (JSON Web Token)**.
 
-1. O usuário realiza login na interface gráfica do sistema.
-2. As credenciais são enviadas para o endpoint `POST /auth/login`.
-3. O backend valida usuário e senha.
-4. Em caso de sucesso, um token JWT é gerado e retornado para a aplicação.
-5. A interface Swing utiliza esse token para acessar os demais recursos protegidos da API.
-6. O acesso às funcionalidades é controlado de acordo com o perfil do usuário.
+### 🔄 Fluxo de autenticação
 
-### Perfis de acesso
-* **ADMIN**: possui acesso completo às funcionalidades do sistema.
-* **FUNCIONARIO**: possui acesso às operações operacionais, como consultas e registro de vendas.
+1. O usuário realiza login na aplicação
+2. As credenciais são enviadas para `POST /auth/login`
+3. O backend valida os dados
+4. Um token JWT é gerado
+5. O token é utilizado nas requisições seguintes
 
-### Regras de segurança
-* As senhas dos usuários são armazenadas de forma criptografada.
-* O token JWT possui tempo de expiração.
-* Endpoints protegidos exigem envio do token de autenticação.
+---
+
+### 👥 Perfis de acesso
+
+* **FUNCIONARIO**
+
+  * Cadastro e gestão de clientes
+  * Cadastro e gestão de produtos
+  * Registro de vendas
+  * Acesso a relatórios
+
+* **CLIENTE**
+
+  * Visualização dos próprios dados
+  * Consulta do histórico de compras
+
+---
+
+### 🔒 Regras de segurança
+
+* Senhas armazenadas com criptografia (BCrypt)
+* Token com tempo de expiração
+* Rotas protegidas por autenticação
+* Controle de acesso baseado em perfil
 
 ---
 
 ## 🏗 Arquitetura do Sistema
 
-O sistema foi desenvolvido utilizando **arquitetura em camadas**, separando responsabilidades para facilitar manutenção e escalabilidade.
+O sistema utiliza **Arquitetura em Camadas**, promovendo separação de responsabilidades e facilidade de manutenção.
 
-### Camada de Apresentação (Interface Desktop)
+### Camadas:
 
-Responsável pela interface com o usuário.
+#### 🎨 Apresentação (Desktop)
 
-Tecnologias utilizadas:
+* Interface com o usuário
+* Tecnologia: Java Swing
 
-* Swing
+#### 🌐 Controller
 
-### Camada de Aplicação (Backend)
+* Exposição de endpoints REST
+* Controle de requisições
 
-Responsável pelas regras de negócio e comunicação com o frontend.
+#### ⚙️ Service (Aplicação)
 
-Tecnologias utilizadas:
+* Regras de negócio
+* Processamento de vendas
+* Validações
 
-* Java
-* Spring Boot
+#### 🧠 Domínio
 
-### Camada de Persistência
+* Entidades e regras centrais
+* Independente de infraestrutura
 
-Responsável pelo acesso ao banco de dados.
+#### 💾 Persistência
 
-Tecnologias utilizadas:
+* Acesso ao banco de dados
+* JPA/Hibernate
 
-* Spring Data JPA
-* Hibernate
-
-### Banco de Dados
-
-Sistema responsável pelo armazenamento das informações do sistema.
-
-Tecnologia utilizada:
+#### 🗄 Banco de Dados
 
 * MySQL
 
@@ -117,81 +139,60 @@ Tecnologia utilizada:
 
 ## 🧩 Padrões de Projeto Utilizados
 
-O projeto utiliza alguns **Design Patterns** para melhor organização do código.
-
 ### Repository
 
-Responsável pela abstração do acesso ao banco de dados.
-
-Exemplos:
-
-* ProdutoRepository
-* ClienteRepository
-* VendaRepository
+* Abstração da camada de dados
+* Redução de acoplamento
 
 ### DTO (Data Transfer Object)
 
-Utilizado para transferência de dados entre frontend e backend.
+* Transferência segura de dados
+* Evita exposição direta das entidades
 
-Exemplos:
+### Singleton (Spring)
 
-* ProdutoDTO
-* ClienteDTO
-* VendaDTO
+* Gerenciamento de instâncias únicas
 
 ### Arquitetura em Camadas
 
-Organiza o sistema em níveis bem definidos.
-
-Benefícios:
-
-* melhor manutenção  
-* baixo acoplamento  
-* maior clareza
-
-### Singleton
-
-Utilizado para garantir uma única instância de componentes compartilhados dentro da aplicação.
+* Separação clara de responsabilidades
 
 ---
 
 ## 🗄 Modelo de Dados
-
-Principais entidades do sistema:
 
 ### Usuario
 
 * id
 * username
 * senha
-* perfil
-
-### Produto
-
-* id
-* nome
-* categoria
-* material
-* preco
-* quantidade
-* descricao
+* perfil (CLIENTE, FUNCIONARIO)
 
 ### Cliente
 
 * id
 * nome
 * cpf
-* telefone
 * email
+* telefone
 * endereco
+* usuario_id (opcional)
+
+### Produto
+
+* id
+* nome
+* descricao
+* preco
+* quantidade_estoque
 
 ### Venda
 
 * id
 * data
 * valor_total
-* forma_pagamento
 * cliente_id
+* usuario_id
 
 ### ItemVenda
 
@@ -200,48 +201,65 @@ Principais entidades do sistema:
 * produto_id
 * quantidade
 * preco_unitario
+* subtotal
+
+---
+
+## 🔗 Relacionamentos
+
+* Cliente 1 — 0..1 Usuario
+* Cliente 1 — N Venda
+* Usuario 1 — N Venda
+* Venda 1 — N ItemVenda
+* Produto 1 — N ItemVenda
 
 ---
 
 ## 📂 Estrutura do Projeto
 
 ```
-sgc-velare
+backend/
+ ├── controller/
+ ├── service/
+ ├── domain/
+ ├── repository/
+ ├── dto/
+ ├── config/
+ └── exception/
 
-src/
- ├── ui/           # Telas Swing
- ├── service/      # Regras de negócio
- ├── repository/   # Acesso ao banco
- ├── model/        # Entidades
- └── dto/          # DTOs
+frontend/
+ └── swing/
 
 database/
  └── script.sql
 
 docs/
  └── diagramas/
-
-README.md
 ```
 
 ---
 
 ## 🚀 Tecnologias Utilizadas
 
-### Backend / Aplicação
-* Java
+### Backend
+
+* Java 21+
 * Spring Boot
 * Spring Data JPA
 * Hibernate
 * Spring Security
 * JWT
 
-### Interface
+### Frontend
+
 * Java Swing
 
 ### Banco de Dados
+
 * MySQL
-* Ferramentas
+
+### Ferramentas
+
 * Git
 * GitHub
 * IntelliJ IDEA / VS Code
@@ -250,53 +268,54 @@ README.md
 
 ## ▶️ Como Executar
 
-1. Clonar o repositório  
-2. Configurar o banco MySQL  
-3. Executar o script SQL  
-4. Iniciar o backend (Spring Boot)  
-5. Executar a aplicação Swing  
+1. Clonar o repositório
+2. Configurar o banco MySQL
+3. Executar o script SQL
+4. Iniciar o backend (Spring Boot)
+5. Executar a aplicação Swing
 
 ---
 
 ## 🌐 API REST
 
-O sistema disponibiliza uma API REST desenvolvida com Spring Boot para comunicação entre a interface desktop em Java Swing e a camada de negócio.
+### 🔐 Autenticação
 
-### Endpoints principais
+* POST `/auth/login`
 
-#### Autenticação
-* `POST /auth/login`
+### 👤 Clientes
 
-#### Clientes
-* `GET /clientes`
-* `GET /clientes/{id}`
-* `POST /clientes`
-* `PUT /clientes/{id}`
-* `DELETE /clientes/{id}`
+* GET `/clientes`
+* GET `/clientes/{id}`
+* POST `/clientes`
+* PUT `/clientes/{id}`
+* DELETE `/clientes/{id}`
 
-#### Produtos
-* `GET /produtos`
-* `GET /produtos/{id}`
-* `POST /produtos`
-* `PUT /produtos/{id}`
-* `DELETE /produtos/{id}`
+### 📦 Produtos
 
-#### Vendas
-* `GET /vendas`
-* `GET /vendas/{id}`
-* `POST /vendas`
+* GET `/produtos`
+* GET `/produtos/{id}`
+* POST `/produtos`
+* PUT `/produtos/{id}`
+* DELETE `/produtos/{id}`
 
-#### Relatórios
-* `GET /relatorios/vendas-por-periodo`
-* `GET /relatorios/vendas-por-cliente`
-* `GET /relatorios/produtos-mais-vendidos`
-* `GET /relatorios/estoque`
+### 💰 Vendas
+
+* GET `/vendas`
+* GET `/vendas/{id}`
+* POST `/vendas`
+
+### 📊 Relatórios
+
+* GET `/relatorios/vendas-por-periodo`
+* GET `/relatorios/vendas-por-cliente`
+* GET `/relatorios/produtos-mais-vendidos`
+* GET `/relatorios/estoque`
 
 ---
 
 ## 👩‍💻 Autora
 
-Projeto desenvolvido por **Catharina Satile**.
+Projeto desenvolvido por **Catharina Satile**
 
 Disciplina: Desenvolvimento de Sistemas
 
