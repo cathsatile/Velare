@@ -315,7 +315,7 @@ docs/
 
 ## 👩‍💻 Autora
 
-Projeto desenvolvido por **Catharina Satile** **Lucas Diógenes Landim Vasques
+Projeto desenvolvido por **Catharina Satile**, **Lucas Diógenes Landim Vasques**
 
 Disciplina: Desenvolvimento de Sistemas
 
