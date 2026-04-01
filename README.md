@@ -335,6 +335,7 @@ Projeto desenvolvido por:
 
 - Catharina Satile
 - Lucas Diógenes Landim Vasques
+- Felipe Tolentino Soares
 
 Disciplina: Desenvolvimento de Sistemas
 
