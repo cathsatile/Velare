@@ -338,6 +338,8 @@ Projeto desenvolvido por:
 
 Disciplina: Desenvolvimento de Sistemas
 
+---
+
 ## 📄 Licença
 
 Projeto acadêmico desenvolvido para fins educacionais.
