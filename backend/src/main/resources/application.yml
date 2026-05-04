@@ -1,0 +1,23 @@
+spring:
+   datasources:
+      url: jdbc:mysql://localhost:3306/sgc_velare
+      username: root
+      password: 123456
+
+jpa:
+  hibernate:
+    ddl-auto: update
+  show-sql: true
+  properties:
+    hibernate:
+      format_sql: true
+  sql:
+    init:
+      mode: always
+
+server:
+  port: 8080
+
+jwt:
+  secret:
+  expiration: 864000000
