@@ -1,4 +1,4 @@
-package main.java.br.com.sgc.exception;
+package br.com.sgc.exception;
 
 public class GlobalExceptionHandler {
     

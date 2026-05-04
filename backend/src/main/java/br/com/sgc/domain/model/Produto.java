@@ -1,4 +1,4 @@
-package main.java.br.com.sgc.domain.model;
+package br.com.sgc.domain.model;
 
 public class Produto {
     

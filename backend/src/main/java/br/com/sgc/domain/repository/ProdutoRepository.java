@@ -1,4 +1,4 @@
-package main.java.br.com.sgc.domain.repository;
+package br.com.sgc.domain.repository;
 
 public class ProdutoRepository {
     

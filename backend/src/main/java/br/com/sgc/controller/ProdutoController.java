@@ -1,4 +1,4 @@
-package main.java.br.com.sgc.controller;
+package br.com.sgc.controller;
 
 public class ProdutoController {
     

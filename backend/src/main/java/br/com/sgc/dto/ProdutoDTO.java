@@ -1,4 +1,4 @@
-package main.java.br.com.sgc.dto;
+package br.com.sgc.dto;
 
 public class ProdutoDTO {
     

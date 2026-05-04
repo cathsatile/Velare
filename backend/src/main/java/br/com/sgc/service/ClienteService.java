@@ -1,4 +1,4 @@
-package main.java.br.com.sgc.service;
+package br.com.sgc.service;
 
 public class ClienteService {
     

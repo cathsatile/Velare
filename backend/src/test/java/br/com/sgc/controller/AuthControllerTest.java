@@ -1,4 +1,4 @@
-package test.java.br.com.sgc.controller;
+package br.com.sgc.controller;
 
 public class AuthControllerTest {
     

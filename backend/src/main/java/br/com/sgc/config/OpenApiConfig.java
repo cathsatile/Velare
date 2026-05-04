@@ -1,4 +1,4 @@
-package main.java.br.com.sgc.config;
+package br.com.sgc.config;
 
 public class OpenApiConfig {
     
