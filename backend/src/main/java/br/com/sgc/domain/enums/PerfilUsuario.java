@@ -1,5 +1,8 @@
 package br.com.sgc.domain.enums;
 
-public class PerfilUsuario {
+public enum PerfilUsuario {
+    ADMIN,
+    USUARIO,
+    CLIENTE
     
 }

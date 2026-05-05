@@ -1,0 +1,5 @@
+br\com\sgc\controller\ClienteControllerTest.class
+br\com\sgc\controller\AuthControllerTest.class
+br\com\sgc\service\ClienteServiceTest.class
+br\com\sgc\service\ProdutoServiceTest.class
+br\com\sgc\controller\ProdutoControllerTest.class
