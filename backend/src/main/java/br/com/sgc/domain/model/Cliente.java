@@ -45,6 +45,10 @@ public class Cliente {
         return cpf;
     }
 
+    public String getTelefone() {
+    return telefone;
+}
+
     public String getEmail() {
         return email;
     }
