@@ -17,6 +17,7 @@ C:\Users\lucas\OneDrive\Documentos\GitHub\Velare\backend\src\main\java\br\com\sg
 C:\Users\lucas\OneDrive\Documentos\GitHub\Velare\backend\src\main\java\br\com\sgc\dto\ClienteDTO.java
 C:\Users\lucas\OneDrive\Documentos\GitHub\Velare\backend\src\main\java\br\com\sgc\dto\ProdutoDTO.java
 C:\Users\lucas\OneDrive\Documentos\GitHub\Velare\backend\src\main\java\br\com\sgc\exception\BusinessException.java
+C:\Users\lucas\OneDrive\Documentos\GitHub\Velare\backend\src\main\java\br\com\sgc\exception\ErrorResponse.java
 C:\Users\lucas\OneDrive\Documentos\GitHub\Velare\backend\src\main\java\br\com\sgc\exception\GlobalExceptionHandler.java
 C:\Users\lucas\OneDrive\Documentos\GitHub\Velare\backend\src\main\java\br\com\sgc\exception\ResourceNotFoundException.java
 C:\Users\lucas\OneDrive\Documentos\GitHub\Velare\backend\src\main\java\br\com\sgc\service\AuthService.java

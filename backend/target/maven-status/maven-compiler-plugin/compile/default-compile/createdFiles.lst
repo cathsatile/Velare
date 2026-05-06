@@ -2,6 +2,7 @@ br\com\sgc\domain\repository\ProdutoRepository.class
 br\com\sgc\config\JwtService.class
 br\com\sgc\controller\ProdutoController.class
 br\com\sgc\config\SecurityConfig.class
+br\com\sgc\exception\ErrorResponse.class
 br\com\sgc\exception\GlobalExceptionHandler.class
 br\com\sgc\exception\ResourceNotFoundException.class
 br\com\sgc\service\ProdutoService.class

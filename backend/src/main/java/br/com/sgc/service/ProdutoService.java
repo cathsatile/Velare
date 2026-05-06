@@ -3,6 +3,7 @@ package br.com.sgc.service;
 import br.com.sgc.domain.model.Produto;
 import br.com.sgc.domain.repository.ProdutoRepository;
 import br.com.sgc.dto.ProdutoDTO;
+import br.com.sgc.exception.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class ProdutoService {
 
     public ProdutoDTO buscarPorId(Long id) {
         Produto produto = produtoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
 
         return converterParaDTO(produto);
     }
@@ -42,7 +43,7 @@ public class ProdutoService {
 
     public ProdutoDTO atualizar(Long id, ProdutoDTO produtoDTO) {
         Produto produtoExistente = produtoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
 
         produtoExistente.setNome(produtoDTO.getNome());
         produtoExistente.setDescricao(produtoDTO.getDescricao());
@@ -56,7 +57,7 @@ public class ProdutoService {
 
     public void deletar(Long id) {
         Produto produto = produtoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
 
         produtoRepository.delete(produto);
     }

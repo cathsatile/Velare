@@ -4,6 +4,7 @@ import br.com.sgc.domain.model.Cliente;
 import br.com.sgc.domain.repository.ClienteRepository;
 import br.com.sgc.dto.ClienteDTO;
 import org.springframework.stereotype.Service;
+import br.com.sgc.exception.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public class ClienteService {
 
     public ClienteDTO buscarPorId(Long id) {
         Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
 
         return converterParaDTO(cliente);
     }
@@ -40,7 +41,7 @@ public class ClienteService {
 
     public ClienteDTO atualizar(Long id, ClienteDTO clienteDTO) {
         Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
 
         cliente.setNome(clienteDTO.getNome());
         cliente.setCpf(clienteDTO.getCpf());
@@ -55,7 +56,7 @@ public class ClienteService {
 
     public void deletar(Long id) {
         Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
 
         clienteRepository.delete(cliente);
     }
