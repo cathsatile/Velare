@@ -3,15 +3,15 @@ package br.com.sgc.service;
 import br.com.sgc.domain.model.Produto;
 import br.com.sgc.domain.repository.ProdutoRepository;
 import br.com.sgc.dto.ProdutoDTO;
+import br.com.sgc.exception.BusinessException;
 import br.com.sgc.exception.ResourceNotFoundException;
+import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 @Service
-
 public class ProdutoService {
 
     private final ProdutoRepository produtoRepository;
@@ -35,6 +35,8 @@ public class ProdutoService {
     }
 
     public ProdutoDTO criar(ProdutoDTO produtoDTO) {
+        validarProduto(produtoDTO);
+
         Produto produto = converterParaEntidade(produtoDTO);
         Produto produtoSalvo = produtoRepository.save(produto);
 
@@ -42,17 +44,19 @@ public class ProdutoService {
     }
 
     public ProdutoDTO atualizar(Long id, ProdutoDTO produtoDTO) {
-        Produto produtoExistente = produtoRepository.findById(id)
+        Produto produto = produtoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
 
-        produtoExistente.setNome(produtoDTO.getNome());
-        produtoExistente.setDescricao(produtoDTO.getDescricao());
-        produtoExistente.setPreco(produtoDTO.getPreco());
-        produtoExistente.setQuantidadeEstoque(produtoDTO.getQuantidadeEstoque());
+        validarProduto(produtoDTO);
 
-        Produto produtoSalvo = produtoRepository.save(produtoExistente);
+        produto.setNome(produtoDTO.getNome());
+        produto.setDescricao(produtoDTO.getDescricao());
+        produto.setPreco(produtoDTO.getPreco());
+        produto.setQuantidadeEstoque(produtoDTO.getQuantidadeEstoque());
 
-        return converterParaDTO(produtoSalvo);
+        Produto produtoAtualizado = produtoRepository.save(produto);
+
+        return converterParaDTO(produtoAtualizado);
     }
 
     public void deletar(Long id) {
@@ -60,6 +64,28 @@ public class ProdutoService {
                 .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
 
         produtoRepository.delete(produto);
+    }
+
+    private void validarProduto(ProdutoDTO produtoDTO) {
+        if (produtoDTO.getNome() == null || produtoDTO.getNome().isBlank()) {
+            throw new BusinessException("Nome do produto é obrigatório");
+        }
+
+        if (produtoDTO.getPreco() == null) {
+            throw new BusinessException("Preço do produto é obrigatório");
+        }
+
+        if (produtoDTO.getPreco().compareTo(BigDecimal.ZERO) < 0) {
+            throw new BusinessException("Preço do produto não pode ser negativo");
+        }
+
+        if (produtoDTO.getQuantidadeEstoque() == null) {
+            throw new BusinessException("Quantidade em estoque é obrigatória");
+        }
+
+        if (produtoDTO.getQuantidadeEstoque() < 0) {
+            throw new BusinessException("Quantidade em estoque não pode ser negativa");
+        }
     }
 
     private ProdutoDTO converterParaDTO(Produto produto) {
