@@ -4,8 +4,6 @@ import br.com.sgc.domain.enums.PerfilUsuario;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "usuarios")
-
 public class Usuario {
 
     @Id
@@ -17,21 +15,11 @@ public class Usuario {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String senha;
 
     @Enumerated(EnumType.STRING)
     private PerfilUsuario perfil;
-
-    public Usuario() {
-    }
-
-    public Usuario(Long id, String nome, String email, String senha, PerfilUsuario perfil) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.perfil = perfil;
-    }
 
     public Long getId() {
         return id;
@@ -40,7 +28,7 @@ public class Usuario {
     public String getNome() {
         return nome;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -57,7 +45,19 @@ public class Usuario {
         this.id = id;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
     public void setPerfil(PerfilUsuario perfil) {
         this.perfil = perfil;
-    } 
+    }
 }

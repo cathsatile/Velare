@@ -7,6 +7,9 @@ public class AuthResponseDTO {
     public AuthResponseDTO() {
     }
 
+    public AuthResponseDTO(String token) {
+    }
+
     public void AuthResposeDTO(String token) {
         this.token = token;
     }

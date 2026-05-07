@@ -1,3 +1,4 @@
+br\com\sgc\config\DataLoader.class
 br\com\sgc\domain\repository\ProdutoRepository.class
 br\com\sgc\config\JwtService.class
 br\com\sgc\controller\ProdutoController.class
