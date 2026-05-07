@@ -1,25 +1,21 @@
 spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/sgc_velare?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: root
-    password: "BkW!uAPA5wg09s8xcAvE"
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
 
-  sql:
-    init:
-      mode: never
-
 server:
   port: 8080
 
 jwt:
-  secret: minha-chave-secreta-super-segura-para-o-sgc-velare
+  secret: ${JWT_SECRET:minha-chave-secreta-super-segura-para-o-sgc-velare}
   expiration: 864000000

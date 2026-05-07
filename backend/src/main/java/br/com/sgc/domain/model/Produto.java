@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "produtos")
-
 public class Produto {
 
-    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
@@ -18,6 +18,9 @@ public class Produto {
     private BigDecimal preco;
 
     private Integer quantidadeEstoque;
+
+    public Produto() {
+    }
 
     public Produto(Long id, String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque) {
         this.id = id;
@@ -65,5 +68,5 @@ public class Produto {
 
     public void setQuantidadeEstoque(Integer quantidadeEstoque) {
         this.quantidadeEstoque = quantidadeEstoque;
-    } 
+    }
 }
