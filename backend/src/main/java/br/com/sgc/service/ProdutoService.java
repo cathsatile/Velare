@@ -76,7 +76,7 @@ public class ProdutoService {
         }
 
         if (produtoDTO.getPreco().compareTo(BigDecimal.ZERO) < 0) {
-            throw new BusinessException("Preço do produto não pode ser negativo");
+            throw new BusinessException("Preço não pode ser negativo");
         }
 
         if (produtoDTO.getQuantidadeEstoque() == null) {
