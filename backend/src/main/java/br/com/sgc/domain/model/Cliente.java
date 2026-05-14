@@ -1,22 +1,27 @@
 package br.com.sgc.domain.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "clientes")
-
 public class Cliente {
 
-    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String nome;
 
-    @Column(unique = true)
+    @NotBlank
+    @Column(unique = true, nullable = false)
     private String cpf;
 
     private String telefone;
 
+    @Email
     private String email;
 
     private String endereco;
@@ -46,8 +51,8 @@ public class Cliente {
     }
 
     public String getTelefone() {
-    return telefone;
-}
+        return telefone;
+    }
 
     public String getEmail() {
         return email;
@@ -80,8 +85,4 @@ public class Cliente {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
-
-
-
-    
 }

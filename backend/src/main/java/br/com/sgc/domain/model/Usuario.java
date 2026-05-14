@@ -2,22 +2,31 @@ package br.com.sgc.domain.model;
 
 import br.com.sgc.domain.enums.PerfilUsuario;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String nome;
 
+    @NotBlank
+    @Email
     @Column(unique = true, nullable = false)
     private String email;
 
+    @NotBlank
     @Column(nullable = false)
     private String senha;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private PerfilUsuario perfil;
 

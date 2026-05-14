@@ -53,6 +53,7 @@ public class ProdutoService {
         produto.setDescricao(produtoDTO.getDescricao());
         produto.setPreco(produtoDTO.getPreco());
         produto.setQuantidadeEstoque(produtoDTO.getQuantidadeEstoque());
+        produto.setEstoqueMinimo(produtoDTO.getEstoqueMinimo());
 
         Produto produtoAtualizado = produtoRepository.save(produto);
 
@@ -86,6 +87,14 @@ public class ProdutoService {
         if (produtoDTO.getQuantidadeEstoque() < 0) {
             throw new BusinessException("Quantidade em estoque não pode ser negativa");
         }
+
+        if (produtoDTO.getEstoqueMinimo() == null) {
+            throw new BusinessException("Estoque mínimo é obrigatório");
+        }
+
+        if (produtoDTO.getEstoqueMinimo() < 0) {
+            throw new BusinessException("Estoque mínimo não pode ser negativo");
+        }
     }
 
     private ProdutoDTO converterParaDTO(Produto produto) {
@@ -94,7 +103,8 @@ public class ProdutoService {
                 produto.getNome(),
                 produto.getDescricao(),
                 produto.getPreco(),
-                produto.getQuantidadeEstoque()
+                produto.getQuantidadeEstoque(),
+                produto.getEstoqueMinimo()
         );
     }
 
@@ -104,7 +114,8 @@ public class ProdutoService {
                 produtoDTO.getNome(),
                 produtoDTO.getDescricao(),
                 produtoDTO.getPreco(),
-                produtoDTO.getQuantidadeEstoque()
+                produtoDTO.getQuantidadeEstoque(),
+                produtoDTO.getEstoqueMinimo()
         );
     }
 }

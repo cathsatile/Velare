@@ -1,6 +1,7 @@
 package br.com.sgc.config;
 
 import br.com.sgc.domain.model.Usuario;
+import org.springframework.lang.NonNull;
 import br.com.sgc.domain.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,11 +28,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.usuarioRepository = usuarioRepository;
     }
 
-    @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain
+@Override
+protected void doFilterInternal(
+        @NonNull HttpServletRequest request,
+        @NonNull HttpServletResponse response,
+        @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
@@ -41,29 +42,33 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String token = authHeader.substring(7);
-        String email = jwtService.extrairEmail(token);
+        try {
+            String token = authHeader.substring(7);
+            String email = jwtService.extrairEmail(token);
 
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
+            if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
 
-            if (usuario != null && jwtService.tokenValido(token, usuario.getEmail())) {
-                SimpleGrantedAuthority authority =
-                        new SimpleGrantedAuthority("ROLE_" + usuario.getPerfil().name());
+                if (usuario != null && jwtService.tokenValido(token, usuario.getEmail())) {
+                    SimpleGrantedAuthority authority =
+                            new SimpleGrantedAuthority("ROLE_" + usuario.getPerfil().name());
 
-                UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(
-                                usuario.getEmail(),
-                                null,
-                                List.of(authority)
-                        );
+                    UsernamePasswordAuthenticationToken authenticationToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    usuario.getEmail(),
+                                    null,
+                                    List.of(authority)
+                            );
 
-                authenticationToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
+                    authenticationToken.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request)
+                    );
 
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
             }
+        } catch (Exception exception) {
+            SecurityContextHolder.clearContext();
         }
 
         filterChain.doFilter(request, response);

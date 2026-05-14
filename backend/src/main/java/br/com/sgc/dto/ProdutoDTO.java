@@ -9,56 +9,65 @@ public class ProdutoDTO {
     private String descricao;
     private BigDecimal preco;
     private Integer quantidadeEstoque;
+    private Integer estoqueMinimo;
 
     public ProdutoDTO() {
-}
+    }
 
-public ProdutoDTO(Long id, String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque) {
-    this.id = id;
-    this.nome = nome;
-    this.descricao = descricao;
-    this.preco = preco;
-    this.quantidadeEstoque = quantidadeEstoque;
-}
+    public ProdutoDTO(Long id, String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque, Integer estoqueMinimo) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.preco = preco;
+        this.quantidadeEstoque = quantidadeEstoque;
+        this.estoqueMinimo = estoqueMinimo;
+    }
 
-public Long getId() {
-    return id;
-}
+    public Long getId() {
+        return id;
+    }
 
-public String getNome() {
-    return nome;
-}
+    public String getNome() {
+        return nome;
+    }
 
-public String getDescricao() {
-    return descricao;
-}
+    public String getDescricao() {
+        return descricao;
+    }
 
-public BigDecimal getPreco() {
-    return preco;
-}
+    public BigDecimal getPreco() {
+        return preco;
+    }
 
-public Integer getQuantidadeEstoque() {
-    return quantidadeEstoque;
-}
+    public Integer getQuantidadeEstoque() {
+        return quantidadeEstoque;
+    }
 
-public void setId(Long id) {
-    this.id = id;
-}
+    public Integer getEstoqueMinimo() {
+        return estoqueMinimo;
+    }
 
-public void setNome(String nome) {
-    this.nome = nome;
-}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-public void setDescricao(String descricao) {
-    this.descricao = descricao;
-}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-public void setPreco(BigDecimal preco) {
-    this.preco = preco;
-}
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
-public void setQuantidadeEstoque(Integer quantidadeEstoque) {
-    this.quantidadeEstoque = quantidadeEstoque;
-}
-}
+    public void setPreco(BigDecimal preco) {
+        this.preco = preco;
+    }
 
+    public void setQuantidadeEstoque(Integer quantidadeEstoque) {
+        this.quantidadeEstoque = quantidadeEstoque;
+    }
+
+    public void setEstoqueMinimo(Integer estoqueMinimo) {
+        this.estoqueMinimo = estoqueMinimo;
+    }
+}

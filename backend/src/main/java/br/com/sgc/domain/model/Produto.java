@@ -19,15 +19,18 @@ public class Produto {
 
     private Integer quantidadeEstoque;
 
+    private Integer estoqueMinimo;
+
     public Produto() {
     }
 
-    public Produto(Long id, String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque) {
+    public Produto(Long id, String nome, String descricao, BigDecimal preco, Integer quantidadeEstoque, Integer estoqueMinimo) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
         this.quantidadeEstoque = quantidadeEstoque;
+        this.estoqueMinimo = estoqueMinimo;
     }
 
     public Long getId() {
@@ -50,6 +53,10 @@ public class Produto {
         return quantidadeEstoque;
     }
 
+    public Integer getEstoqueMinimo() {
+        return estoqueMinimo;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -68,5 +75,9 @@ public class Produto {
 
     public void setQuantidadeEstoque(Integer quantidadeEstoque) {
         this.quantidadeEstoque = quantidadeEstoque;
+    }
+
+    public void setEstoqueMinimo(Integer estoqueMinimo) {
+        this.estoqueMinimo = estoqueMinimo;
     }
 }

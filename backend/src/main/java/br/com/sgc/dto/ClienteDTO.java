@@ -1,13 +1,25 @@
 package br.com.sgc.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class ClienteDTO {
 
     private Long id;
+
+    @NotBlank(message = "Nome do cliente é obrigatório")
     private String nome;
-    private String email;
-    private String endereco;
+
+    @NotBlank(message = "CPF do cliente é obrigatório")
     private String cpf;
+
     private String telefone;
+
+    @NotBlank(message = "Email do cliente é obrigatório")
+    @Email(message = "Email inválido")
+    private String email;
+
+    private String endereco;
 
     public ClienteDTO() {
     }
@@ -15,10 +27,10 @@ public class ClienteDTO {
     public ClienteDTO(Long id, String nome, String cpf, String telefone, String email, String endereco) {
         this.id = id;
         this.nome = nome;
-        this.email = email;
-        this.endereco = endereco;
         this.cpf = cpf;
         this.telefone = telefone;
+        this.email = email;
+        this.endereco = endereco;
     }
 
     public Long getId() {
@@ -68,5 +80,4 @@ public class ClienteDTO {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
-    
 }

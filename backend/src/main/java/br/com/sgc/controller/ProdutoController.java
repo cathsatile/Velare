@@ -2,6 +2,8 @@ package br.com.sgc.controller;
 
 import br.com.sgc.dto.ProdutoDTO;
 import br.com.sgc.service.ProdutoService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/produtos")
-
 public class ProdutoController {
 
     private final ProdutoService produtoService;
@@ -20,7 +21,6 @@ public class ProdutoController {
 
     @GetMapping
     public ResponseEntity<List<ProdutoDTO>> listarTodos() {
-
         List<ProdutoDTO> produtos = produtoService.listarTodos();
         return ResponseEntity.ok(produtos);
     }
@@ -32,15 +32,15 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<ProdutoDTO> criar(@RequestBody ProdutoDTO produtoDTO) {
+    public ResponseEntity<ProdutoDTO> criar(@Valid @RequestBody ProdutoDTO produtoDTO) {
         ProdutoDTO produtoCriado = produtoService.criar(produtoDTO);
-        return ResponseEntity.ok(produtoCriado);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produtoCriado);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ProdutoDTO> atualizar(
-        @PathVariable Long id,
-        @RequestBody ProdutoDTO produtoDTO
+            @PathVariable Long id,
+            @Valid @RequestBody ProdutoDTO produtoDTO
     ) {
         ProdutoDTO produtoAtualizado = produtoService.atualizar(id, produtoDTO);
         return ResponseEntity.ok(produtoAtualizado);
@@ -51,5 +51,4 @@ public class ProdutoController {
         produtoService.deletar(id);
         return ResponseEntity.noContent().build();
     }
-
 }

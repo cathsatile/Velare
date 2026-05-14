@@ -2,6 +2,8 @@ package br.com.sgc.controller;
 
 import br.com.sgc.dto.ClienteDTO;
 import br.com.sgc.service.ClienteService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,15 +32,15 @@ public class ClienteController {
     }
 
     @PostMapping
-    public ResponseEntity<ClienteDTO> criar(@RequestBody ClienteDTO clienteDTO) {
+    public ResponseEntity<ClienteDTO> criar(@Valid @RequestBody ClienteDTO clienteDTO) {
         ClienteDTO clienteCriado = clienteService.criar(clienteDTO);
-        return ResponseEntity.ok(clienteCriado);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteCriado);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ClienteDTO> atualizar(
             @PathVariable Long id,
-            @RequestBody ClienteDTO clienteDTO
+            @Valid @RequestBody ClienteDTO clienteDTO
     ) {
         ClienteDTO clienteAtualizado = clienteService.atualizar(id, clienteDTO);
         return ResponseEntity.ok(clienteAtualizado);
