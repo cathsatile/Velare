@@ -23,6 +23,5 @@ br\com\sgc\controller\AuthController.class
 br\com\sgc\service\AuthService.class
 br\com\sgc\domain\model\Usuario.class
 br\com\sgc\controller\ClienteController.class
-br\com\sgc\config\OpenApiConfig.class
 br\com\sgc\dto\AuthRequestDTO.class
 br\com\sgc\dto\ClienteDTO.class
