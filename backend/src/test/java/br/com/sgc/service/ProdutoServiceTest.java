@@ -33,6 +33,7 @@ class ProdutoServiceTest {
         dto.setDescricao("Anel em ouro 18k com acabamento polido");
         dto.setPreco(new BigDecimal("1299.90"));
         dto.setQuantidadeEstoque(5);
+        dto.setEstoqueMinimo(1);
 
         Produto produtoSalvo = new Produto();
         produtoSalvo.setId(1L);
@@ -40,6 +41,7 @@ class ProdutoServiceTest {
         produtoSalvo.setDescricao("Anel em ouro 18k com acabamento polido");
         produtoSalvo.setPreco(new BigDecimal("1299.90"));
         produtoSalvo.setQuantidadeEstoque(5);
+        produtoSalvo.setEstoqueMinimo(1);
 
         when(produtoRepository.save(any(Produto.class))).thenReturn(produtoSalvo);
 
@@ -51,6 +53,7 @@ class ProdutoServiceTest {
         assertEquals("Anel em ouro 18k com acabamento polido", resultado.getDescricao());
         assertEquals(new BigDecimal("1299.90"), resultado.getPreco());
         assertEquals(5, resultado.getQuantidadeEstoque());
+        assertEquals(1, resultado.getEstoqueMinimo());
 
         verify(produtoRepository).save(any(Produto.class));
     }
@@ -63,6 +66,7 @@ class ProdutoServiceTest {
         produto.setDescricao("Colar de prata 925 com pingente delicado");
         produto.setPreco(new BigDecimal("349.90"));
         produto.setQuantidadeEstoque(12);
+        produto.setEstoqueMinimo(2);
 
         when(produtoRepository.findById(1L)).thenReturn(Optional.of(produto));
 
@@ -74,6 +78,7 @@ class ProdutoServiceTest {
         assertEquals("Colar de prata 925 com pingente delicado", resultado.getDescricao());
         assertEquals(new BigDecimal("349.90"), resultado.getPreco());
         assertEquals(12, resultado.getQuantidadeEstoque());
+        assertEquals(2, resultado.getEstoqueMinimo());
 
         verify(produtoRepository).findById(1L);
     }
@@ -99,6 +104,7 @@ class ProdutoServiceTest {
         dto.setDescricao("Pulseira com pérolas naturais");
         dto.setPreco(new BigDecimal("-50.00"));
         dto.setQuantidadeEstoque(3);
+        dto.setEstoqueMinimo(1);
 
         BusinessException exception = assertThrows(
                 BusinessException.class,
@@ -117,6 +123,7 @@ class ProdutoServiceTest {
         dto.setDescricao("Brinco pequeno com pedra brilhante");
         dto.setPreco(new BigDecimal("899.90"));
         dto.setQuantidadeEstoque(null);
+        dto.setEstoqueMinimo(1);
 
         BusinessException exception = assertThrows(
                 BusinessException.class,
@@ -135,6 +142,7 @@ class ProdutoServiceTest {
         dto.setDescricao("Aliança de prata lisa");
         dto.setPreco(new BigDecimal("199.90"));
         dto.setQuantidadeEstoque(-2);
+        dto.setEstoqueMinimo(1);
 
         BusinessException exception = assertThrows(
                 BusinessException.class,
@@ -142,6 +150,44 @@ class ProdutoServiceTest {
         );
 
         assertEquals("Quantidade em estoque não pode ser negativa", exception.getMessage());
+
+        verifyNoInteractions(produtoRepository);
+    }
+
+    @Test
+    void deveLancarErroQuandoEstoqueMinimoForNulo() {
+        ProdutoDTO dto = new ProdutoDTO();
+        dto.setNome("Corrente de Ouro");
+        dto.setDescricao("Corrente fina de ouro 18k");
+        dto.setPreco(new BigDecimal("799.90"));
+        dto.setQuantidadeEstoque(4);
+        dto.setEstoqueMinimo(null);
+
+        BusinessException exception = assertThrows(
+                BusinessException.class,
+                () -> produtoService.criar(dto)
+        );
+
+        assertEquals("Estoque mínimo é obrigatório", exception.getMessage());
+
+        verifyNoInteractions(produtoRepository);
+    }
+
+    @Test
+    void deveLancarErroQuandoEstoqueMinimoForNegativo() {
+        ProdutoDTO dto = new ProdutoDTO();
+        dto.setNome("Pingente de Prata");
+        dto.setDescricao("Pingente pequeno de prata 925");
+        dto.setPreco(new BigDecimal("149.90"));
+        dto.setQuantidadeEstoque(8);
+        dto.setEstoqueMinimo(-1);
+
+        BusinessException exception = assertThrows(
+                BusinessException.class,
+                () -> produtoService.criar(dto)
+        );
+
+        assertEquals("Estoque mínimo não pode ser negativo", exception.getMessage());
 
         verifyNoInteractions(produtoRepository);
     }

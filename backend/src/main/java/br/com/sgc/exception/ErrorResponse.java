@@ -21,7 +21,7 @@ public class ErrorResponse {
         this.caminho = caminho;
     }
 
-    public LocalDateTime gettimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 

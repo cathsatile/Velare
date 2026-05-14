@@ -1,14 +1,21 @@
 package br.com.sgc.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class AuthRequestDTO {
 
+    @NotBlank(message = "Email é obrigatório")
+    @Email(message = "Email inválido")
     private String email;
+
+    @NotBlank(message = "Senha é obrigatória")
     private String senha;
 
     public AuthRequestDTO() {
     }
 
-    public void AuthRequest(String email, String senha) {
+    public AuthRequestDTO(String email, String senha) {
         this.email = email;
         this.senha = senha;
     }
