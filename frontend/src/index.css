@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-velare-bg text-velare-text;
+  }
+  body {
+    @apply antialiased;
+  }
+  *::-webkit-scrollbar {
+    @apply w-2;
+  }
+  *::-webkit-scrollbar-track {
+    @apply bg-velare-panel;
+  }
+  *::-webkit-scrollbar-thumb {
+    @apply bg-velare-border rounded-full;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    @apply bg-velare-gold;
+  }
+}
