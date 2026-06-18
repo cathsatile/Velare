@@ -7,6 +7,11 @@ export async function getProdutos(): Promise<Produto[]> {
   return response.data;
 }
 
+export async function getProduto(id: number): Promise<Produto> {
+  const response = await api.get<Produto>(`/produtos/${id}`);
+  return response.data;
+}
+
 export async function getProdutosLoja(): Promise<Produto[]> {
   const response = await lojaApi.get<Produto[]>('/produtos');
   return response.data;

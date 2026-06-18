@@ -1,13 +1,13 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-interface Column<T> {
-  key: string;
+export interface Column<T extends object> {
+  key: keyof T | string;
   header: string;
   render?: (item: T) => ReactNode;
   className?: string;
 }
 
-interface TableProps<T> {
+interface TableProps<T extends object> {
   columns: Column<T>[];
   data: T[];
   keyExtractor: (item: T) => string | number;
@@ -15,8 +15,12 @@ interface TableProps<T> {
   loading?: boolean;
 }
 
-export default function Table<T extends Record<string, unknown>>({
-  columns, data, keyExtractor, emptyMessage = 'Nenhum registro encontrado', loading,
+export default function Table<T extends object>({
+  columns,
+  data,
+  keyExtractor,
+  emptyMessage = 'Nenhum registro encontrado',
+  loading,
 }: TableProps<T>) {
   if (loading) {
     return (
@@ -45,20 +49,34 @@ export default function Table<T extends Record<string, unknown>>({
         <thead>
           <tr className="bg-velare-bg-alt">
             {columns.map((column) => (
-              <th key={column.key} className={`px-4 py-3 text-left text-sm font-semibold text-velare-text-muted ${column.className || ''}`}>
+              <th
+                key={String(column.key)}
+                className={`px-4 py-3 text-left text-sm font-semibold text-velare-text-muted ${column.className || ''}`}
+              >
                 {column.header}
               </th>
             ))}
           </tr>
         </thead>
+
         <tbody>
           {data.map((item) => (
-            <tr key={keyExtractor(item)} className="border-t border-velare-border hover:bg-velare-panel/50 transition-colors">
-              {columns.map((column) => (
-                <td key={column.key} className={`px-4 py-3 text-sm text-velare-text ${column.className || ''}`}>
-                  {column.render ? column.render(item) : (item[column.key] as ReactNode)}
-                </td>
-              ))}
+            <tr
+              key={keyExtractor(item)}
+              className="border-t border-velare-border hover:bg-velare-panel/50 transition-colors"
+            >
+              {columns.map((column) => {
+                const value = (item as Record<string, unknown>)[String(column.key)];
+
+                return (
+                  <td
+                    key={String(column.key)}
+                    className={`px-4 py-3 text-sm text-velare-text ${column.className || ''}`}
+                  >
+                    {column.render ? column.render(item) : String(value ?? '')}
+                  </td>
+                );
+              })}
             </tr>
           ))}
         </tbody>

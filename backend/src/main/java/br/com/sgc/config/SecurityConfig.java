@@ -31,66 +31,65 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                // 🔒 desativa CSRF (API stateless)
                 .csrf(csrf -> csrf.disable())
 
-                // 🌐 habilita CORS
                 .cors(cors -> {})
 
-                // 🚫 API stateless (JWT)
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
-                // 🔐 regras de autorização
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login").permitAll()
+                        // Preflight CORS
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
+                        // Rotas públicas
+                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/loja/produtos").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/loja/produtos/**").permitAll()
+
+                        // Clientes - área administrativa
                         .requestMatchers(HttpMethod.GET, "/clientes/**").hasAnyRole("ADMIN", "FUNCIONARIO")
                         .requestMatchers(HttpMethod.POST, "/clientes/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/clientes/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/clientes/**").hasRole("ADMIN")
 
+                        // Produtos - área administrativa
                         .requestMatchers(HttpMethod.GET, "/produtos/**").hasAnyRole("ADMIN", "FUNCIONARIO")
                         .requestMatchers(HttpMethod.POST, "/produtos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/produtos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/produtos/**").hasRole("ADMIN")
 
+                        // Demais rotas protegidas
                         .anyRequest().authenticated()
                 )
 
-                // 🧠 JWT filter
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .build();
     }
 
-    // 🌐 CORS CONFIG (ESSENCIAL)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:5173")); // React (Vite)
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 
-        UrlBasedCorsConfigurationSource source =
-                new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
         source.registerCorsConfiguration("/**", config);
 
         return source;
     }
 
-    // 🔑 Password encoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // 🔐 Authentication manager
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();

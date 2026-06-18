@@ -1,11 +1,10 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { BASE_URL } from './axios';
 
 const SERVICE_TOKEN = import.meta.env.VITE_SERVICE_TOKEN || '';
 
 export const lojaApi = axios.create({
-  baseURL: BASE_URL,
+  baseURL: 'http://localhost:8080/loja',
   headers: {
     'Content-Type': 'application/json',
   },
