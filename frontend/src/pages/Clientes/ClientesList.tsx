@@ -76,9 +76,18 @@ export default function ClientesList() {
     setModalOpen(true);
   }
 
-  function handleOpenEdit(cliente: Cliente) {
-    setEditingCliente(cliente);
-    setModalOpen(true);
+function handleOpenEdit(cliente: Cliente) {
+  setEditingCliente({
+    ...cliente,
+    cpf: formatCPF(cliente.cpf),
+  });
+
+  setModalOpen(true);
+}
+
+  function handleCloseModal() {
+    setModalOpen(false);
+    setEditingCliente(null);
   }
 
   function handleOpenDelete(cliente: Cliente) {
@@ -177,7 +186,7 @@ export default function ClientesList() {
         </div>
       </div>
 
-      <Table<Cliente & Record<string, unknown>>
+      <Table<Cliente>
         columns={columns}
         data={filteredClientes}
         keyExtractor={(cliente) => cliente.id}
@@ -187,7 +196,7 @@ export default function ClientesList() {
 
       <Modal
         isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={handleCloseModal}
         title={editingCliente ? 'Editar Cliente' : 'Novo Cliente'}
         size="lg"
       >

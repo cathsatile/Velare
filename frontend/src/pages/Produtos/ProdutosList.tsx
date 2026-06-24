@@ -68,9 +68,19 @@ export default function ProdutosList() {
     setModalOpen(true);
   }
 
+  function handleCloseModal() {
+    setModalOpen(false);
+    setEditingProduto(null);
+  }
+
   function handleOpenDelete(produto: Produto) {
     setDeletingProduto(produto);
     setDeleteDialogOpen(true);
+  }
+
+  function handleCloseDeleteDialog() {
+    setDeleteDialogOpen(false);
+    setDeletingProduto(null);
   }
 
   async function handleConfirmDelete() {
@@ -80,12 +90,21 @@ export default function ProdutosList() {
 
     try {
       await deleteProduto(deletingProduto.id);
+
       toast.success('Produto excluído com sucesso');
-      setProdutos((prev) => prev.filter((p) => p.id !== deletingProduto.id));
+
+      setProdutos((prev) =>
+        prev.filter((produto) => produto.id !== deletingProduto.id)
+      );
+
       setDeleteDialogOpen(false);
       setDeletingProduto(null);
     } catch {
-      // Error handled by interceptor
+      /*
+       * O erro é exibido pelo interceptor do axios.
+       * Se o produto já estiver em vendas, o backend retorna 409
+       * com mensagem clara para o usuário.
+       */
     } finally {
       setDeleteLoading(false);
     }
@@ -175,6 +194,7 @@ export default function ProdutosList() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => handleOpenEdit(produto)}
+            title="Editar produto"
             className="p-2 rounded-lg text-velare-text-muted hover:text-velare-gold hover:bg-velare-gold/10 transition-colors"
           >
             <Pencil className="w-4 h-4" />
@@ -182,6 +202,7 @@ export default function ProdutosList() {
 
           <button
             onClick={() => handleOpenDelete(produto)}
+            title="Excluir produto"
             className="p-2 rounded-lg text-velare-text-muted hover:text-velare-error hover:bg-velare-error/10 transition-colors"
           >
             <Trash2 className="w-4 h-4" />
@@ -228,21 +249,25 @@ export default function ProdutosList() {
 
       <Modal
         isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={handleCloseModal}
         title={editingProduto ? 'Editar Produto' : 'Novo Produto'}
         size="lg"
       >
         <ProdutoForm produto={editingProduto} onSuccess={handleFormSuccess} />
       </Modal>
 
-      <ConfirmDialog
-        isOpen={deleteDialogOpen}
-        onClose={() => setDeleteDialogOpen(false)}
-        onConfirm={handleConfirmDelete}
-        title="Excluir Produto"
-        message={`Tem certeza que deseja excluir o produto "${deletingProduto?.nome}"?`}
-        loading={deleteLoading}
-      />
+<ConfirmDialog
+  isOpen={deleteDialogOpen}
+  onClose={handleCloseDeleteDialog}
+  onConfirm={handleConfirmDelete}
+  title="Excluir Produto"
+  message={
+    deletingProduto
+      ? `Excluir "${deletingProduto.nome}"? Produtos com vendas registradas não podem ser removidos.`
+      : ''
+  }
+  loading={deleteLoading}
+/>
     </div>
   );
 }

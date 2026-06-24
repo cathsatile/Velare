@@ -5,7 +5,11 @@ import br.com.sgc.domain.repository.ProdutoRepository;
 import br.com.sgc.dto.ProdutoDTO;
 import br.com.sgc.exception.BusinessException;
 import br.com.sgc.exception.ResourceNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -60,12 +64,21 @@ public class ProdutoService {
         return converterParaDTO(produtoAtualizado);
     }
 
-    public void deletar(Long id) {
-        Produto produto = produtoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
+@Transactional
+public void deletar(Long id) {
+    Produto produto = produtoRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
 
+    try {
         produtoRepository.delete(produto);
+        produtoRepository.flush();
+    } catch (DataIntegrityViolationException exception) {
+        throw new ResponseStatusException(
+                HttpStatus.CONFLICT,
+                "Produto com vendas registradas não pode ser excluído."
+        );
     }
+}
 
     private void validarProduto(ProdutoDTO produtoDTO) {
         if (produtoDTO.getNome() == null || produtoDTO.getNome().isBlank()) {
