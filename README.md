@@ -196,6 +196,19 @@ Velare/
 - BCrypt
 - Maven
 
+### Frontend
+
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router DOM
+- Axios
+- React Hook Form
+- Zod
+- Lucide React
+- React Hot Toast
+
 ### Banco de Dados
 
 - MySQL
@@ -212,6 +225,109 @@ Velare/
 - GitHub
 - VS Code / IntelliJ IDEA
 - Postman / Insomnia
+
+---
+
+## 🖥️ Frontend
+
+O frontend do **SGC Velare** está na pasta:
+
+```text
+frontend/
+```
+
+Ele foi desenvolvido com React, TypeScript e Vite, consumindo a API REST do backend por meio do Axios.
+
+### Funcionalidades do Frontend
+
+- Tela de login integrada com autenticação JWT;
+- rotas protegidas para área administrativa;
+- dashboard do sistema;
+- listagem, cadastro e edição de clientes;
+- listagem, cadastro e edição de produtos;
+- telas de vendas;
+- relatório de vendas;
+- área de loja pública com catálogo de produtos;
+- página de detalhes do produto;
+- carrinho de compras;
+- checkout;
+- tela de confirmação de compra;
+- feedback visual com notificações.
+
+### Estrutura principal do Frontend
+
+```text
+frontend/
+├── src/
+│   ├── api/
+│   ├── components/
+│   ├── context/
+│   ├── hooks/
+│   ├── pages/
+│   ├── routes/
+│   ├── types/
+│   ├── utils/
+│   ├── App.tsx
+│   └── main.tsx
+├── package.json
+├── vite.config.ts
+├── tailwind.config.js
+└── .env.example
+```
+
+### Rotas principais do Frontend
+
+| Rota | Descrição | Proteção |
+|---|---|---|
+| `/login` | Tela de login | Pública |
+| `/dashboard` | Painel principal | Requer login |
+| `/clientes` | Gestão de clientes | Requer login |
+| `/produtos` | Gestão de produtos | Requer login |
+| `/vendas` | Listagem de vendas | Requer login |
+| `/vendas/nova` | Cadastro de nova venda | Requer login |
+| `/vendas/relatorio` | Relatório de vendas | Requer login |
+| `/loja/catalogo` | Catálogo público da loja | Pública |
+| `/loja/produto/:id` | Detalhes do produto | Pública |
+| `/loja/carrinho` | Carrinho de compras | Pública |
+| `/loja/checkout` | Finalização da compra | Pública |
+| `/loja/sucesso` | Confirmação da compra | Pública |
+
+### Configuração do Frontend
+
+O frontend usa variáveis de ambiente para localizar a API:
+
+```text
+VITE_API_URL=http://localhost:8080
+VITE_SERVICE_TOKEN=seu_token_jwt_de_funcionario_aqui
+```
+
+Essas variáveis estão exemplificadas em:
+
+```text
+frontend/.env.example
+```
+
+### Como Executar o Frontend
+
+Dentro da pasta `frontend`, instale as dependências e inicie o servidor de desenvolvimento:
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+O frontend ficará disponível no endereço informado pelo Vite, normalmente:
+
+```text
+http://localhost:5173
+```
+
+Para gerar a versão de produção:
+
+```powershell
+npm run build
+```
 
 ---
 
